@@ -1,0 +1,17 @@
+node_modules/
+logs/
+rome/frames/
+rome/film.html
+rome/basemap.json
+rome/film.mp4
+rome/film.silent.mp4
+*.log
+*.done
+_bench.mjs
+_pw_test.mjs
+geo_inspect.mjs
+probe_osm.sh
+AGENTS.md
+CLAUDE.md
+QWEN.md
+.qwen/
