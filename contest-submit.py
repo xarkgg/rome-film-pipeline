@@ -39,6 +39,9 @@ def main():
             data = json.dumps(data).encode()
         req = urllib.request.Request(base + action, data=data, method=method, headers={
             'Authorization': 'Bearer ' + token, 'Content-Type': content_type,
+            # sandbase.ai sits behind Cloudflare, which rejects the default
+            # python-urllib User-Agent with an HTML 403 (error code 1010).
+            'User-Agent': 'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36',
         })
         try:
             with opener.open(req, timeout=120) as response:
