@@ -15,3 +15,7 @@ AGENTS.md
 CLAUDE.md
 QWEN.md
 .qwen/
+
+aw.txt
+it_*.txt
+core
