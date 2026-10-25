@@ -377,14 +377,34 @@ window.render = function (t) {
     eras.forEach((e, j) => { const a = seg(t, end + j * 0.22, end + 0.9 + j * 0.22); if (a > 0 && !e.lines.length) drawArea(c, e, 1, 0.1 * a, { bloom: false }) })
     eras.forEach((e, j) => { const a = seg(t, end + j * 0.25, end + 1 + j * 0.25); if (e.polys.length || e.lines.length) { g.save(); g.strokeStyle = rgba(e.color, 0.95 * a); g.lineWidth = 2.5; g.shadowColor = rgba(e.color, 0.8); g.shadowBlur = 10; e.polys.forEach((p) => { trace(c, p); g.stroke() }); e.lines.forEach((l) => { trace(c, l, false); g.stroke() }); g.restore() } })
     hud(c, '')
-    g.globalAlpha = k
-    text(S.title.en, 96, 190, 80, '#f2f0f3', 700); text(S.title.sub ?? '', 100, 246, 34, '#c9c5d3', 400)
-    let ly = 320
-    for (const e of eras) { g.fillStyle = e.color; g.fillRect(100, ly - 12, 28, 6); text(`${e.year} · ${e.label}`, 144, ly, 22, '#dcd9e4'); if (e.km2) { const w = g.measureText(`${e.year} · ${e.label}`).width; text(`≈ ${fmtKm2(e.km2)} km²`, 156 + w, ly, 18, 'rgba(220,217,228,0.55)', 400, 'left', MONO) } ly += 34 }
-    subtitle(S.outro, fadeIO(t, end + 0.6, T - 4.6, 0.4))
-    g.globalAlpha = 1
+    // Title block fades out as the end card takes over, and its headline scales
+    // to fit the frame width instead of running off it.
+    const tb = 1 - seg(t, T - 4.6, T - 3.8)
+    if (tb > 0) {
+      g.globalAlpha = k * tb
+      g.font = `700 80px ${FONT}`
+      const twTitle = g.measureText(S.title.en).width
+      g.font = `700 ${Math.min(80, Math.floor(80 * (W - 192) / Math.max(twTitle, 1)))}px ${FONT}`
+      g.fillStyle = '#f2f0f3'
+      g.fillText(S.title.en, 96, 190)
+      text(S.title.sub ?? '', 100, 246, 34, '#c9c5d3', 400)
+      let ly = 320
+      for (const e of eras) { g.fillStyle = e.color; g.fillRect(100, ly - 12, 28, 6); text(`${e.year} · ${e.label}`, 144, ly, 22, '#dcd9e4'); if (e.km2) { const w = g.measureText(`${e.year} · ${e.label}`).width; text(`≈ ${fmtKm2(e.km2)} km²`, 156 + w, ly, 18, 'rgba(220,217,228,0.55)', 400, 'left', MONO) } ly += 34 }
+      g.globalAlpha = 1
+    }
+    subtitle(S.outro, fadeIO(t, end + 0.6, T - 4.6, 0.4) * tb)
     const z = seg(t, T - 4.2, T)
-    if (z > 0) { g.globalAlpha = z; g.fillStyle = '#0b0a12'; g.fillRect(0, 0, W, H); if (S.endCard?.title) { text(S.endCard.title, W / 2, H / 2 - 10, 88, '#f2f0f3', 700, 'center'); if (S.endCard.sub) text(S.endCard.sub, W / 2, H / 2 + 60, 40, '#d9ff43', 500, 'center') } g.globalAlpha = 1 }
+    if (z > 0) {
+      g.globalAlpha = z; g.fillStyle = '#0b0a12'; g.fillRect(0, 0, W, H)
+      if (S.endCard?.title) {
+        const ec = S.endCard.title
+        g.font = `700 88px ${FONT}`
+        const twEnd = g.measureText(ec).width
+        text(ec, W / 2, H / 2 - 10, Math.min(88, Math.floor(88 * (W - 160) / Math.max(twEnd, 1))), '#f2f0f3', 700, 'center')
+        if (S.endCard.sub) text(S.endCard.sub, W / 2, H / 2 + 60, 40, '#d9ff43', 500, 'center')
+      }
+      g.globalAlpha = 1
+    }
     if (t < end + 0.8) { g.globalAlpha = 1 - seg(t, end, end + 0.8); g.globalAlpha = 1 }
     return
   }

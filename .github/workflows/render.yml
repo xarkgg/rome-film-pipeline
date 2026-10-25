@@ -2,7 +2,7 @@ name: render film
 on:
   workflow_dispatch:
   push:
-    paths: ['render_chunked.mjs', 'rome/a*', 'rome/basemap.mini.json']
+    paths: ['render_chunked.mjs', 'skills/**', 'rome/a*', 'rome/basemap.mini.json']
 jobs:
   render:
     runs-on: ubuntu-latest
