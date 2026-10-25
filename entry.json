@@ -1,0 +1,21 @@
+{
+  "title": "Rome Was Not Built in a Day—and Never Finished",
+  "summary": "A map-history of Rome from 753 BC to today: every era builds on the last, the city's rings growing from a ploughed square (0.1 km²) to a metropolitan ring (346 km²). It is not finished.",
+  "lang": "en",
+  "fields": {
+    "city_id": "rome",
+    "place_lat": 41.8931,
+    "place_lng": 12.4828,
+    "used_m31_flash": true,
+    "director_notes": "Directed by MiniMax M3.1 Flash through SandBase (direct() calls in m31.mjs): it wrote the title, nine era narrations, event titles and all illustration prompts from a human-provided fact-checked brief (rome_brief.mjs); a second M3.1 pass revised narrations and the outro (polish_story.mjs, fix_outro.mjs). Humans edited only verified dates and areas and stripped negative phrasing from image prompts. Voice: MiniMax Speech 2.8 HD via SandBase (11 narration clips). Landmark cards: Qwen Image 3 via SandBase (2) and FLUX via Pollinations free tier (16) after the SandBase credit ran out — all card prompts are M3.1's. Map: real OpenStreetMap extents (Servian/Aurelian walls, Grande Raccordo Anulare) pulled by code (resolve.mjs, 19k+ ways) and drawn on a headless-Chrome canvas, one frame per t, encoded by FFmpeg, rendered on GitHub Actions CI. No keyframes or hand animation: every frame is a pure function of time (window.render(t)). The workflow and facts live in the open-source repo: github.com/xarkgg/rome-film-pipeline.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Servian_Walls",
+      "https://en.wikipedia.org/wiki/Aurelian_Walls",
+      "https://en.wikipedia.org/wiki/Rome",
+      "https://pleiades.stoa.org/places/423025",
+      "https://www.openstreetmap.org/",
+      "https://www.sandbase.ai/lab/skills/city-through-time"
+    ],
+    "my_city_line": "New rings drawn on old ones, still moving outward."
+  }
+}
