@@ -12,7 +12,13 @@ const dir = resolve(process.argv[2] ?? join(ROOT, 'rome'))
 const skill = join(ROOT, 'skills/city-through-time')
 const req = createRequire(join(skill, 'scripts', 'noop.js'))
 const chrome = process.env.CHROME ?? '/data/data/com.termux/files/usr/bin/chromium-browser'
-const FPS = 30, CHUNK = 60, PAUSE = 30
+const FPS = 30
+// Chunk pauses exist for the 2GB phone (Android OOM recovery); on machines with
+// normal RAM they only burn wall-clock, so auto-tune from available memory.
+const memMb = Number((readFileSync('/proc/meminfo', 'utf8').match(/MemAvailable:\s+(\d+)/) ?? [0, 0])[1]) / 1024
+const phone = memMb < 1800
+const CHUNK = phone ? 60 : Infinity /** then a "chunk" is the whole film in one browser */
+const PAUSE = phone ? 30 : 2
 const ARGS = ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--js-flags=--max-old-space-size=200', '--disable-features=site-per-process']
 const pkgFile = (name, sub) => {
   for (const base of req.resolve.paths(name) ?? []) { const f = join(base, name, sub); if (existsSync(f)) return f }
