@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: npm, cache-dependency-path: skills/city-through-time/package-lock.json }
+        with: { node-version: 22, cache: npm, cache-dependency-path: skills/city-through-time/package-lock.json }
       - name: deps + chromium
         run: |
           cd skills/city-through-time
@@ -19,7 +19,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: render film
         run: |
-          CHROME=$(ls "$HOME/.cache/ms-playwright/"chromium-*/chrome-linux/chrome | head -1)
+          CHROME=$(find "$HOME/.cache/ms-playwright" -type f -path "*chrome-linux/chrome" | head -1)
+          [ -z "$CHROME" ] && { echo "NO CHROME"; ls -R "$HOME/.cache/ms-playwright"; exit 1; }
           echo "CHROME=$CHROME" >> "$GITHUB_ENV"
           node render_chunked.mjs rome
       - uses: actions/upload-artifact@v4
