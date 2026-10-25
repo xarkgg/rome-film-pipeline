@@ -19,9 +19,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: render film
         run: |
-          CHROME=$(find "$HOME/.cache/ms-playwright" -type f -name chrome -not -path "*headless*" | head -1)
+          export CHROME=$(find "$HOME/.cache/ms-playwright" -type f -name chrome -not -path "*headless*" | head -1)
           [ -z "$CHROME" ] && { echo "NO CHROME"; ls -R "$HOME/.cache/ms-playwright"; exit 1; }
-          echo "CHROME=$CHROME" >> "$GITHUB_ENV"
           node render_chunked.mjs rome
       - uses: actions/upload-artifact@v4
         with:
