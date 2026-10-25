@@ -13,6 +13,7 @@ jobs:
         with: { node-version: 22, cache: npm, cache-dependency-path: skills/city-through-time/package-lock.json }
       - name: deps + chromium
         run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
           cd skills/city-through-time
           npm ci
           npm i -D playwright

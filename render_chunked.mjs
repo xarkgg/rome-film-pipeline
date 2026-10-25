@@ -84,7 +84,7 @@ for (let a = 0; a < frames; a += CHUNK) {
   }
   await br.close()
   if (errs.length) { console.error('player errors:', errs); process.exit(1) }
-  console.log(`chunk ${a}-${b - 1} ok ${new Date().toISOString().slice(11, 19)}`, { flush: true })
+  console.log(`chunk ${a}-${b - 1} ok (${b - a} frames)`, { flush: true })
   if (b < frames) await new Promise((r) => setTimeout(r, PAUSE * 1000))
 }
 
